@@ -22,11 +22,22 @@ const ImagesList = () => {
     fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [term])
 
   return (
     <div className="container mx-auto">
-      <ImageSearch />
+
+      <ImageSearch searchText={(text) => setTerm(text)} />
+
+      {
+        !loading && images.length === 0 && 
+        <h1 
+          className="text-5xl text-center mx-auto"
+        >
+          No images found
+        </h1>
+      }
+
       {
         loading ? 
         <h1 className="text-6xl text-center mx-auto">Loading..</h1>
