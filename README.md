@@ -1,7 +1,7 @@
 # Images Search 
 
 > This is a react application used as a practicing project to become better in react.
-> The user can search for an objects from API and get dispayed 
+> The user can search for images from API and get them dispayed on the browser 
 
 ![screenshot](./src/images/image_search.jpeg)
 
