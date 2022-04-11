@@ -1,27 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import ImageCard from './ImageCard';
 
 const ImagesList = () => {
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [term, setTerm] = useState('');
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`https://pixabay.com/api/?key=${process.env.REACT_APP_PIXABAY_API_KEY}&q=${term}&image_type=photo&pretty=true`);
+      const data = await response.json();
+      setImages(data.hits);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <div className="mx-w-sm rounded overflow-hidden shadow-lg">
-      <img src="https://source.unsplash.com/random" alt="" className="w-full" />
-      <div className="px-6 py-4">
-        <div className="font-bold text-purple-500 text-xl mb-2">Photo by John Doe</div>
-        <ul>
-          <li>
-            <strong>Views: </strong>4000
-          </li>
-          <li>
-            <strong>Downloads: </strong>300
-          </li>
-          <li>
-            <strong>Likes: </strong>400
-          </li>
-        </ul>
-      </div>
-      <div className="px-6 py-4">
-        <div className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#tag1</div>
-        <div className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#tag1</div>
-        <div className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#tag1</div>
+    <div className="container mx-auto">
+      <div className="grid-grid-cols-3 gap-4">
+        {
+          images.map((image) => (
+            <ImageCard 
+              key={image.id}
+              imageItem={image}
+            />
+          ))
+        }
       </div>
     </div>
   )
